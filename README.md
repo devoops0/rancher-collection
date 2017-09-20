@@ -1,0 +1,1 @@
+# Collection of Rancher Templates
