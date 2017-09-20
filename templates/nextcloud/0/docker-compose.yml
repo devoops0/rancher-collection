@@ -49,11 +49,11 @@ services:
 volumes:
     nc-data:
         driver: rancher-nfs
-        driver-opts:
+        driver_opts:
             onRemove: retain
             exportBase: /nextcloud-data
     mariadb-data:
         driver: rancher-nfs
-        driver-opts:
+        driver_opts:
             onRemove: retain
             exportBase: /nextcloud-mariadb
