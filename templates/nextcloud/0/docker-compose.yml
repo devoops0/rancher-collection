@@ -50,8 +50,10 @@ volumes:
     nc-data:
         driver: rancher-nfs
         driver-opts:
+            onRemove: retain
             exportBase: /nextcloud-data
     mariadb-data:
         driver: rancher-nfs
         driver-opts:
+            onRemove: retain
             exportBase: /nextcloud-mariadb
