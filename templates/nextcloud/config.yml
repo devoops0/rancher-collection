@@ -1,0 +1,6 @@
+name: nextcloud-nfs
+description: Enterprise File Sync and Share with persistent storage using rancher-nfs
+version: 0.0.1
+category: File Synchronisation
+projectURL: to be updated
+
