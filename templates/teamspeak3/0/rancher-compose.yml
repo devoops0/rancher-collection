@@ -1,0 +1,20 @@
+version: '2'
+
+catalog:
+
+  name: teamspeak3
+  version: 0.0.1
+  description: Teamspeak3 - Voice Chat Server
+  questions:
+    - variable: DB_PASS
+      label: Database Password
+      required: true
+      type: password
+ ts-srv-data:
+  scale: 1
+teamspeak-db:
+  scale: 1
+ts-db-data:
+  scale: 1
+teamspeak-server:
+  scale: 1

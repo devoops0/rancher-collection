@@ -1,0 +1,63 @@
+version: '2'
+
+services: 
+
+ts-srv-data:
+  labels:
+    io.rancher.container.start_once: 'true'
+  command:
+  - /bin/true
+  image: busybox
+  volumes:
+    - ts-srv-data:/data
+
+ts-db-data:
+  labels:
+    io.rancher.container.start_once: 'true'
+  command:
+    - /bin/true
+  image: busybox
+  volumes:
+    - ts-db-data:/var/lib/mysql
+
+teamspeak-db:
+  environment:
+    MYSQL_DATABASE: teamspeak
+    MYSQL_PASSWORD: ${DB_PASS}
+    MYSQL_RANDOM_ROOT_PASSWORD: 'yes'
+    MYSQL_USER: teamspeak
+  labels:
+    io.rancher.sidekicks: ts-db-data
+    io.rancher.container.pull_image: always
+  image: mariadb
+  volumes_from:
+    - ts-db-data
+
+teamspeak-server:
+  image: aducastel/teamspeak
+  ports:
+    - 10011:10011/tcp
+    - 30033:30033/tcp
+    - 9987:9987/udp
+  environment:
+    MARIADB_DATABASE: teamspeak
+    MARIADB_HOST: teamspeak-db
+    MARIADB_PASSWD: ${DB_PASS}
+    MARIADB_USER: teamspeak
+  labels:
+    io.rancher.sidekicks: ts-srv-data
+    io.rancher.container.pull_image: always
+  volumes_from:
+    - ts-srv-data
+
+volumes:
+    ts-srv-data:
+        driver: rancher-nfs
+        driver_opts:
+            onRemove: retain
+            exportBase: /ts-srv-data
+    ts-db-data:
+        driver: rancher-nfs
+        driver_opts:
+            onRemove: retain
+            exportBase: ts-db-data
