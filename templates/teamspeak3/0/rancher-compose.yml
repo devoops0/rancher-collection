@@ -10,11 +10,18 @@ catalog:
       label: Database Password
       required: true
       type: password
- ts-srv-data:
-  scale: 1
-teamspeak-db:
-  scale: 1
-ts-db-data:
-  scale: 1
-teamspeak-server:
-  scale: 1
+
+services:
+
+  ts-srv-data:
+    scale: 1
+    start_on_create: true
+  teamspeak-db:
+    scale: 1
+    start_on_create: true
+  ts-db-data:
+    scale: 1
+    start_on_create: true
+  teamspeak-server:
+    scale: 1
+    start_on_create: true
