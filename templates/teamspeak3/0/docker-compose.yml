@@ -60,4 +60,4 @@ volumes:
       driver: rancher-nfs
       driver_opts:
           onRemove: retain
-          exportBase: ts-db-data
+          exportBase: /ts-db-data
