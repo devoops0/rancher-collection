@@ -1,0 +1,5 @@
+name: teamspeak3
+description: Voice Chat Server
+version: 0.0.1
+category: communication
+projectURL: https://github.com/selsbeck/rancher-collection

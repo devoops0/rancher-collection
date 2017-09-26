@@ -1,0 +1,16 @@
+version: '2'
+
+catalog:
+
+  name: teamspeak3
+  version: 0.0.1
+  description: Teamspeak3 - Voice Chat Server
+
+services:
+
+  ts-srv-data:
+    scale: 1
+    start_on_create: true
+  teamspeak-server:
+    scale: 1
+    start_on_create: true

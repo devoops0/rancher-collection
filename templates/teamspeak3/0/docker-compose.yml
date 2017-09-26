@@ -1,0 +1,31 @@
+version: '2'
+
+services: 
+
+  ts-srv-data:
+    labels:
+      io.rancher.container.start_once: 'true'
+    command:
+    - /bin/true
+    image: busybox
+    volumes:
+      - ts-srv-data:/data
+
+  teamspeak-server:
+    image: aheil/teamspeak3-server
+    ports:
+      - 10011:10011/tcp
+      - 30033:30033/tcp
+      - 9987:9987/udp
+    labels:
+      io.rancher.sidekicks: ts-srv-data
+      io.rancher.container.pull_image: always
+    volumes_from:
+      - ts-srv-data
+
+volumes:
+  ts-srv-data:
+      driver: rancher-nfs
+      driver_opts:
+          onRemove: retain
+          exportBase: /ts-srv-data
