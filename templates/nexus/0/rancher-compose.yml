@@ -1,0 +1,37 @@
+version: '2'
+
+catalog:
+
+  name: nexus3
+  version: 0.0.1
+  description: Nexus Repository Manager 3
+  questions:
+    - variable: NEXUS_PORT
+      label: Port
+      default: 80
+      required: true
+      type: int
+    - variable: NEXUS_DOCKER_PORT1
+      label: First port for Docker repository. If empty, it will not be exposed.
+      required: false
+      type: int
+    - variable: NEXUS_DOCKER_PORT2
+      label: Second port for Docker repository. If empty, it will not be exposed.
+      required: false
+      type: int
+    - variable: INSTALL4J_ADD_VM_PARAMS
+      default: "-Xms1200m -Xmx1200m -XX:MaxDirectMemorySize=2g -Djava.util.prefs.userRoot=${NEXUS_DATA}/javaprefs"
+      label: JVM Parameters (default: -Xms1200m -Xmx1200m -XX:MaxDirectMemorySize=2g -Djava.util.prefs.userRoot=${NEXUS_DATA}/javaprefs)
+      required: true
+      type: string
+    - variable: NEXUS_CONTEXT
+      label: Nexus Context
+      required: true
+      default: /
+      type: string
+
+services:
+
+  nexus:
+    scale: 1
+    start_on_create: true

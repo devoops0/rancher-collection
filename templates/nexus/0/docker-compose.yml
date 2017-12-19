@@ -1,0 +1,25 @@
+version: '2'
+
+services:
+
+  nexus:
+    image: sonatype/nexus3
+    volumes:
+        - nexus-data:/nexus-data
+    ports:
+      - ${NEXUS_PORT}:8081
+      - ${NEXUS_DOCKER_PORT1}:8082
+      - ${NEXUS_DOCKER_PORT2}:8083
+    labels:
+      io.rancher.sidekicks: nexus-data
+      io.rancher.container.hostname_override: container_name
+    environment:
+        - INSTALL4J_ADD_VM_PARAMS=${INSTALL4J_ADD_VM_PARAMS}
+        - NEXUS_CONTEXT=${NEXUS_CONTEXT}
+
+volumes:
+    nexus-data:
+        driver: rancher-nfs
+        driver_opts:
+            onRemove: retain
+            exportBase: /nexus-data
