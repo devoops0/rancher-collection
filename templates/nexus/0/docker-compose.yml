@@ -12,7 +12,7 @@ services:
       - ${NEXUS_DOCKER_PORTB}:8083
     environment:
         - "INSTALL4J_ADD_VM_PARAMS=${INSTALL4J_ADD_VM_PARAMS}"
-        - NEXUS_CONTEXT: ${NEXUS_CONTEXT}
+        - "NEXUS_CONTEXT=${NEXUS_CONTEXT}"
     labels:
       io.rancher.container.hostname_override: container_name
 
