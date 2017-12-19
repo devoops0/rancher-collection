@@ -13,9 +13,9 @@ services:
     labels:
       io.rancher.sidekicks: nexus-data
       io.rancher.container.hostname_override: container_name
-    environment:
-        - INSTALL4J_ADD_VM_PARAMS=${INSTALL4J_ADD_VM_PARAMS}
-        - NEXUS_CONTEXT=${NEXUS_CONTEXT}
+#    environment:
+#        - INSTALL4J_ADD_VM_PARAMS=${INSTALL4J_ADD_VM_PARAMS}
+#        - NEXUS_CONTEXT=${NEXUS_CONTEXT}
 
 volumes:
     nexus-data:
