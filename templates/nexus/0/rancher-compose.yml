@@ -2,7 +2,7 @@ version: '2'
 
 catalog:
 
-  name: nexus3
+  name: nexus
   version: 0.0.1
   description: Nexus Repository Manager 3
   questions:
@@ -11,11 +11,11 @@ catalog:
       default: 80
       required: true
       type: int
-    - variable: NEXUS_DOCKER_PORT1
+    - variable: NEXUS_DOCKER_PORTA
       label: First port for Docker repository. If empty, it will not be exposed.
       required: false
       type: int
-    - variable: NEXUS_DOCKER_PORT2
+    - variable: NEXUS_DOCKER_PORTB
       label: Second port for Docker repository. If empty, it will not be exposed.
       required: false
       type: int
