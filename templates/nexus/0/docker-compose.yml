@@ -3,7 +3,7 @@ version: '2'
 services:
 
   nexus:
-    image: sonatype:nexus3
+    image: sonatype/nexus3
     volumes:
         - nexus3-data:/nexus-data
     ports:
