@@ -8,7 +8,7 @@ catalog:
   questions:
     - variable: NEXUS_PORT
       label: Port
-      default: 80
+      default: 8081
       required: true
       type: int
     - variable: NEXUS_DOCKER_PORTA
