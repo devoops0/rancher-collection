@@ -8,10 +8,10 @@ services:
         - nexus3-data:/nexus-data
     ports:
       - ${NEXUS_PORT}:8081
-      - ${NEXUS_DOCKER_PORTA}:8082
-      - ${NEXUS_DOCKER_PORTB}:8083
+#      - ${NEXUS_DOCKER_PORTA}:8082
+#      - ${NEXUS_DOCKER_PORTB}:8083
     environment:
-        - INSTALL4J_ADD_VM_PARAMS: ${INSTALL4J_ADD_VM_PARAMS}
+#        - INSTALL4J_ADD_VM_PARAMS: ${INSTALL4J_ADD_VM_PARAMS}
         - NEXUS_CONTEXT: ${NEXUS_CONTEXT}
     labels:
       io.rancher.container.hostname_override: container_name
