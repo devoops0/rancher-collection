@@ -3,4 +3,3 @@ description: Nexus Repository Manager for Maven Artifacts and Docker images
 version: 0.0.1
 category: Continuous Integration
 projectURL: http://www.sonatype.org/nexus
-
