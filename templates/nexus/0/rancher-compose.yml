@@ -13,10 +13,12 @@ catalog:
       type: int
     - variable: NEXUS_DOCKER_PORTA
       label: First port for Docker repository. If empty, it will not be exposed.
+      default: 8082
       required: false
       type: int
     - variable: NEXUS_DOCKER_PORTB
       label: Second port for Docker repository. If empty, it will not be exposed.
+      default: 8083
       required: false
       type: int
     - variable: INSTALL4J_ADD_VM_PARAMS
