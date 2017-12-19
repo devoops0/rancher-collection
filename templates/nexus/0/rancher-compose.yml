@@ -19,11 +19,11 @@ catalog:
       label: Second port for Docker repository. If empty, it will not be exposed.
       required: false
       type: int
-#    - variable: INSTALL4J_ADD_VM_PARAMS
-#      default: -Xms1200m -Xmx1200m -XX:MaxDirectMemorySize=2g -Djava.util.prefs.userRoot=${NEXUS_DATA}/javaprefs
-#      label: JVM Parameters (default: -Xms1200m -Xmx1200m -XX:MaxDirectMemorySize=2g -Djava.util.prefs.userRoot=${NEXUS_DATA}/javaprefs)
-#      required: true
-#      type: string
+    - variable: INSTALL4J_ADD_VM_PARAMS
+      default: "-Xms1200m -Xmx1200m -XX:MaxDirectMemorySize=2g -Djava.util.prefs.userRoot=${NEXUS_DATA}/javaprefs"
+      label: JVM Parameters
+      required: true
+      type: string
     - variable: NEXUS_CONTEXT
       label: Nexus Context
       required: true
