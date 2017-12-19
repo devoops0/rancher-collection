@@ -1,4 +1,4 @@
-name: Nexus Repository Manager 3
+name: NexusRepositoryManager3
 description: Nexus Repository Manager for Maven Artifacts and Docker images
 version: 0.0.1
 category: Continuous Integration
