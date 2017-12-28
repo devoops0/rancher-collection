@@ -18,13 +18,6 @@ catalog:
         - false
         - true
 
-    - variable: "PUBLISH_PORT"
-      label: "Publish port"
-      description: |
-        Set port to publish the service.
-      required: false
-      type: "int"
-
 services:
   zammad-backup:
     scale: 1
