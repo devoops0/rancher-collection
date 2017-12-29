@@ -42,7 +42,7 @@ catalog:
         description: |
         default: safepassword
         required: true
-        type: string
+        type: password
 
       - variable: "MYSQL_PASS"
         label: "MySQL password"
