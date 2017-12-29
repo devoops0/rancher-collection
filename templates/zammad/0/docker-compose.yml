@@ -2,82 +2,121 @@ version: '2'
 
 services:
 
-  elasticsearch:
-    image: zammad/zammad-docker-compose:zammad-elasticsearch
-    labels:
-      io.rancher.container.pull_image: always
+  zammad-backup:
+    command: ["zammad-backup"]
+    depends_on:
+      - zammad-railsserver
+    entrypoint: /usr/local/bin/backup.sh
+    image: ${IMAGE_REPO}:zammad-postgresql
+    links:
+      - zammad-postgresql
+    restart: always
+    volumes:
+      - zammad-backup:/var/tmp/zammad
+      - zammad-data:/opt/zammad
+
+  zammad-elasticsearch:
+    image: ${IMAGE_REPO}:zammad-elasticsearch
+    restart: always
+    volumes:
+      - elasticsearch-data:/usr/share/elasticsearch/data
+
+  zammad-init:
+    command: ["zammad-init"]
+    depends_on:
+      - zammad-postgresql
+    image: ${IMAGE_REPO}:zammad
+    links:
+      - zammad-elasticsearch
+      - zammad-postgresql
+    restart: on-failure
+    volumes:
+      - zammad-data:/opt/zammad
+
+  zammad-memcached:
+    command: ["zammad-memcached"]
+    image: ${IMAGE_REPO}:zammad-memcached
     restart: always
 
-  nginx:
+  zammad-nginx:
+    command: ["zammad-nginx"]
     depends_on:
-      - zammad
-    image: zammad/zammad-docker-compose:zammad-nginx
-    labels:
-      io.rancher.container.pull_image: always
+      - zammad-railsserver
+    environment:
+      - VIRTUAL_HOST=helpdesk.megeo.de
+    image: ${IMAGE_REPO}:zammad
     links:
       - zammad-railsserver
       - zammad-websocket
-    ports:
-      - "80:80"
     restart: always
     volumes:
-      - data-zammad:/home/zammad
+      - zammad-data:/opt/zammad
 
-  postgresql:
-    image: zammad/zammad-docker-compose:zammad-postgresql
-    labels:
-      io.rancher.container.pull_image: always
+  zammad-postgresql:
+    image: ${IMAGE_REPO}:zammad-postgresql
     restart: always
-
-  zammad:
-    image: zammad/zammad-docker-compose:zammad
-    labels:
-      io.rancher.container.pull_image: always
-      io.rancher.container.start_once: 'true'
-    restart: on-failure
     volumes:
-      - data-zammad:/home/zammad
+      - postgresql-data:/var/lib/postgresql/data
 
   zammad-railsserver:
-    image: zammad/zammad-docker-compose:zammad-railsserver
-    labels:
-      io.rancher.container.pull_image: always
-    links:
-      - elasticsearch
-      - postgresql
-      - zammad
+    command: ["zammad-railsserver"]
     depends_on:
-      - elasticsearch
-      - postgresql
-      - zammad
+      - zammad-memcached
+      - zammad-postgresql
+    image: ${IMAGE_REPO}:zammad
+    links:
+      - zammad-elasticsearch
+      - zammad-memcached
+      - zammad-postgresql
     restart: always
+    volumes:
+      - zammad-data:/opt/zammad
 
   zammad-scheduler:
-    image: zammad/zammad-docker-compose:zammad-scheduler
-    labels:
-      io.rancher.container.pull_image: always
-    links:
-      - elasticsearch
-      - postgresql
-      - zammad
+    command: ["zammad-scheduler"]
     depends_on:
-      - elasticsearch
-      - postgresql
-      - zammad
+      - zammad-memcached
+      - zammad-railsserver
+    image: ${IMAGE_REPO}:zammad
+    links:
+      - zammad-elasticsearch
+      - zammad-memcached
+      - zammad-postgresql
     restart: always
+    volumes:
+      - zammad-data:/opt/zammad
 
   zammad-websocket:
-    image: zammad/zammad-docker-compose:zammad-websocket
-    labels:
-      io.rancher.container.pull_image: always
-    links:
-      - postgresql
-      - zammad
+    command: ["zammad-websocket"]
     depends_on:
-      - postgresql
-      - zammad
+      - zammad-memcached
+      - zammad-railsserver
+    image: ${IMAGE_REPO}:zammad
+    links:
+      - zammad-postgresql
+      - zammad-memcached
     restart: always
+    volumes:
+      - zammad-data:/opt/zammad
 
 volumes:
-  data-zammad:
-    driver: local
+  elasticsearch-data:
+    driver: rancher-nfs
+    driver_opts:
+        onRemove: retain
+        exportBase: /zammad
+  postgresql-data:
+    driver: rancher-nfs
+    driver_opts:
+        onRemove: retain
+        exportBase: /zammad
+  zammad-backup:
+    driver: rancher-nfs
+    driver_opts:
+        onRemove: retain
+        exportBase: /zammad
+  zammad-data:
+    driver: rancher-nfs
+    driver_opts:
+        onRemove: retain
+        exportBase: /zammad
