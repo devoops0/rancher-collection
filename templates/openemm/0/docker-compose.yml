@@ -1,0 +1,39 @@
+version: '2'
+
+services:
+
+  openemm-app:
+    image: bulktrade/openemm
+    links:
+      - openemm-mysql
+    restart: always
+    environment:
+      - OPEN_EMM_HOSTNAME=${OPEN_EMM_HOSTNAME}
+      - OPEN_EMM_URL=${OPEN_EMM_PROTO}${OPEN_EMM_HOSTNAME}
+      - VIRTUAL_HOST=${OPEN_EMM_HOSTNAME}
+      - VIRTUAL_PORT=80
+      - MAIL_ADDRESSES=newsletter info
+      - 'MAIL_HOST=${SMTP_HOST}'
+      - 'MAIL_USERNAME_AND_PASSWORD=${MAIL_USER}:${MAIL_PASS}'
+
+  openemm-cron:
+    image: bulktrade/openemm
+    links:
+      - openemm-mysql
+    command: /start-cron.sh
+    restart: always
+
+  openemm-mysql:
+    image: tutum/mysql
+    restart: always
+    volumes:
+      - openemm-mysql-data:/var/lib/mysql
+    environment:
+      - MYSQL_PASS=${MYSQL_PASS}
+
+volumes:
+  openemm-mysql-data:
+    driver: rancher-nfs
+    driver_opts:
+        onRemove: retain
+        exportBase: /openemm

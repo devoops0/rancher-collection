@@ -1,0 +1,8 @@
+name: OpenEMM
+description: |
+    OpenEMM is a professional, web-based open source software for email marketing and automation.
+version: "2015 R3"
+category: Marketing
+maintainer: "Agnitas AG <info@agnitas.ag>"
+projectURL: https://www.agnitas.de/e-marketing-manager/email-marketing-software/openemm/
+license: CPAL-1.0

@@ -2,6 +2,7 @@ version: '2'
 
 services:
 
+<<<<<<< HEAD
   elasticsearch:
     image: zammad/zammad-docker-compose:zammad-elasticsearch
     labels:
@@ -81,3 +82,123 @@ services:
 volumes:
   data-zammad:
     driver: local
+=======
+  zammad-backup:
+    command: ["zammad-backup"]
+    depends_on:
+      - zammad-railsserver
+    entrypoint: /usr/local/bin/backup.sh
+    image: ${IMAGE_REPO}:zammad-postgresql
+    links:
+      - zammad-postgresql
+    restart: always
+    volumes:
+      - zammad-backup:/var/tmp/zammad
+      - zammad-data:/opt/zammad
+
+  zammad-elasticsearch:
+    image: ${IMAGE_REPO}:zammad-elasticsearch
+    restart: always
+    volumes:
+      - elasticsearch-data:/usr/share/elasticsearch/data
+
+  zammad-init:
+    command: ["zammad-init"]
+    depends_on:
+      - zammad-postgresql
+    image: ${IMAGE_REPO}:zammad
+    links:
+      - zammad-elasticsearch
+      - zammad-postgresql
+    restart: on-failure
+    volumes:
+      - zammad-data:/opt/zammad
+
+  zammad-memcached:
+    command: ["zammad-memcached"]
+    image: ${IMAGE_REPO}:zammad-memcached
+    restart: always
+
+  zammad-nginx:
+    command: ["zammad-nginx"]
+    depends_on:
+      - zammad-railsserver
+    environment:
+      - VIRTUAL_HOST=helpdesk.megeo.de
+    image: ${IMAGE_REPO}:zammad
+    links:
+      - zammad-railsserver
+      - zammad-websocket
+    restart: always
+    volumes:
+      - zammad-data:/opt/zammad
+
+  zammad-postgresql:
+    image: ${IMAGE_REPO}:zammad-postgresql
+    restart: always
+    volumes:
+      - postgresql-data:/var/lib/postgresql/data
+
+  zammad-railsserver:
+    command: ["zammad-railsserver"]
+    depends_on:
+      - zammad-memcached
+      - zammad-postgresql
+    image: ${IMAGE_REPO}:zammad
+    links:
+      - zammad-elasticsearch
+      - zammad-memcached
+      - zammad-postgresql
+    restart: always
+    volumes:
+      - zammad-data:/opt/zammad
+
+  zammad-scheduler:
+    command: ["zammad-scheduler"]
+    depends_on:
+      - zammad-memcached
+      - zammad-railsserver
+    image: ${IMAGE_REPO}:zammad
+    links:
+      - zammad-elasticsearch
+      - zammad-memcached
+      - zammad-postgresql
+    restart: always
+    volumes:
+      - zammad-data:/opt/zammad
+
+  zammad-websocket:
+    command: ["zammad-websocket"]
+    depends_on:
+      - zammad-memcached
+      - zammad-railsserver
+    image: ${IMAGE_REPO}:zammad
+    links:
+      - zammad-postgresql
+      - zammad-memcached
+    restart: always
+    volumes:
+      - zammad-data:/opt/zammad
+
+volumes:
+  elasticsearch-data:
+    driver: rancher-nfs
+    driver_opts:
+        onRemove: retain
+        exportBase: /zammad
+  postgresql-data:
+    driver: rancher-nfs
+    driver_opts:
+        onRemove: retain
+        exportBase: /zammad
+  zammad-backup:
+    driver: rancher-nfs
+    driver_opts:
+        onRemove: retain
+        exportBase: /zammad
+  zammad-data:
+    driver: rancher-nfs
+    driver_opts:
+        onRemove: retain
+        exportBase: /zammad
+>>>>>>> 2855098ef852d7647397be6328e4a0c4e2f89ad2

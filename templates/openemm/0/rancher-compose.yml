@@ -1,0 +1,66 @@
+version: '2'
+
+catalog:
+    name: "OpenEMM"
+    version: "2015 R3"
+    description: "OpenEMM is a professional, web-based open source software for email marketing and automation."
+    minimum_rancher_version: v1.2.0
+    questions:
+      - variable: "OPEN_EMM_HOSTNAME"
+        label: "Hostname for OpenEMM"
+        description: |
+        default: openemm.local
+        required: true
+        type: string
+      - variable: "OPEN_EMM_PROTO"
+        label: "Protocol for OpenEMM"
+        description: |
+            Choose either http:// (unsecure!!) or https:// (secure, encrypted)
+        default: https://
+        required: true
+        type: enum
+        options:
+          - http://
+          - https://
+
+      - variable: "SMTP_HOST"
+        label: "Hostname of SMTP-Server used for sending your Mails"
+        description: |
+        default: smtp.openemm.local
+        required: true
+        type: string
+
+      - variable: "MAIL_USER"
+        label: "SMTP user"
+        description: |
+        default: user
+        required: true
+        type: string
+
+      - variable: "MAIL_PASS"
+        label: "SMTP password"
+        description: |
+        default: safepassword
+        required: true
+        type: password
+
+      - variable: "MYSQL_PASS"
+        label: "MySQL password"
+        description: |
+        default: supersafepassword
+        required: true
+        type: password
+
+services:
+
+  openemm-app:
+    scale: 1
+    start_on_create: true
+
+  openemm-cron:
+    scale: 1
+    start_on_create: true
+
+  openemm-mysql:
+    scale: 1
+    start_on_create: true
