@@ -6,7 +6,7 @@ services:
     depends_on:
       - zammad-railsserver
     entrypoint: /usr/local/bin/backup.sh
-    image: zammad/zammad-docker-compose:zammad-postgresql-2.2.0-12
+    image: zammad/zammad-docker-compose:zammad-postgresql
     links:
       - zammad-postgresql
     restart: always
@@ -15,7 +15,7 @@ services:
       - zammad-data:/opt/zammad
 
   zammad-elasticsearch:
-    image: zammad/zammad-docker-compose:zammad-elasticsearch-2.2.0-12
+    image: zammad/zammad-docker-compose:zammad-elasticsearch
     {{- if eq .Values.UPDATE_SYSCTL "true" }}
     labels:
       io.rancher.sidekicks: zammad-elasticsearch-sysctl
@@ -40,7 +40,7 @@ services:
     command: ["zammad-init"]
     depends_on:
       - zammad-postgresql
-    image: zammad/zammad-docker-compose:zammad-2.2.0-12
+    image: zammad/zammad-docker-compose:zammad
     labels:
       io.rancher.container.start_once: true
     links:
@@ -59,14 +59,14 @@ services:
 
   zammad-memcached:
     command: ["zammad-memcached"]
-    image: zammad/zammad-docker-compose:zammad-memcached-2.2.0-12
+    image: zammad/zammad-docker-compose:zammad-memcached
     restart: always
 
   zammad-nginx:
     command: ["zammad-nginx"]
     depends_on:
       - zammad-railsserver
-    image: zammad/zammad-docker-compose:zammad-2.2.0-12
+    image: zammad/zammad-docker-compose:zammad
     links:
       - zammad-railsserver
       - zammad-websocket
@@ -75,7 +75,7 @@ services:
       - zammad-data:/opt/zammad
 
   zammad-postgresql:
-    image: zammad/zammad-docker-compose:zammad-postgresql-2.2.0-12
+    image: zammad/zammad-docker-compose:zammad-postgresql
     restart: always
     volumes:
       - postgresql-data:/var/lib/postgresql/data
@@ -85,7 +85,7 @@ services:
     depends_on:
       - zammad-memcached
       - zammad-postgresql
-    image: zammad/zammad-docker-compose:zammad-2.2.0-12
+    image: zammad/zammad-docker-compose:zammad
     links:
       - zammad-elasticsearch
       - zammad-memcached
@@ -99,7 +99,7 @@ services:
     depends_on:
       - zammad-memcached
       - zammad-railsserver
-    image: zammad/zammad-docker-compose:zammad-2.2.0-12
+    image: zammad/zammad-docker-compose:zammad
     links:
       - zammad-elasticsearch
       - zammad-memcached
@@ -113,7 +113,7 @@ services:
     depends_on:
       - zammad-memcached
       - zammad-railsserver
-    image: zammad/zammad-docker-compose:zammad-2.2.0-12
+    image: zammad/zammad-docker-compose:zammad
     links:
       - zammad-postgresql
       - zammad-memcached
