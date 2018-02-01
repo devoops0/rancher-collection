@@ -123,10 +123,22 @@ services:
 
 volumes:
   elasticsearch-data:
-    driver: local
+    driver: rancher-nfs
+    driver_opts:
+        onRemove: retain
+        exportBase: /zammad
   postgresql-data:
-    driver: local
+    driver: rancher-nfs
+    driver_opts:
+        onRemove: retain
+        exportBase: /zammad
   zammad-backup:
-    driver: local
+    driver: rancher-nfs
+    driver_opts:
+        onRemove: retain
+        exportBase: /zammad
   zammad-data:
-    driver: local
+    driver: rancher-nfs
+    driver_opts:
+        onRemove: retain
+        exportBase: /zammad
