@@ -20,6 +20,7 @@ catalog:
           description: |
               This is where rancher will pull the Docker Images from.
           default: "zammad/zammd-docker-compose"
+          type: "string"
           required: true
 
         - variable: "VERSION"
