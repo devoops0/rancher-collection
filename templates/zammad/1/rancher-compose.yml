@@ -14,12 +14,14 @@ catalog:
           default: "zammad.example.com"
           required: true
           type: "string"
+
         - variable: "IMAGE_REPO"
           label: "Docker Image Repository"
           description: |
               "This is where rancher will pull the Docker Images from."
           default: "zammad/zammd-docker-compose"
           required: true
+
         - variable: "VERSION"
           label: "Zammad Version. If you leave this blank, the latest images will be pulled"
           description: ""
