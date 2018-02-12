@@ -8,23 +8,24 @@ catalog:
     minimum_rancher_version: v1.2.0
     questions:
         - variable: "VIRTUAL_HOST"
-          label: "Virtual Host used in Nginx"
+          label: "Nginx Virtual Host"
           description: |
-              "This is the Domain, that is used as Virtual Host in Nginx. Just put in the Domain, you want to access zammad with."
-          default: "zammad.example.com"
+              This is the Domain, that is used as Virtual Host in Nginx. Just put in the Domain, you want to access zammad with.
           required: true
           type: "string"
+          default: "zammad.example.com"
 
         - variable: "IMAGE_REPO"
           label: "Docker Image Repository"
           description: |
-              "This is where rancher will pull the Docker Images from."
+              This is where rancher will pull the Docker Images from.
           default: "zammad/zammd-docker-compose"
           required: true
 
         - variable: "VERSION"
           label: "Zammad Version. If you leave this blank, the latest images will be pulled"
-          description: ""
+          description: |
+              Zammad Version
           required: false
           default: ""
           type: "string"
