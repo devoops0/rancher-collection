@@ -1,0 +1,67 @@
+version: '2'
+
+catalog:
+    name: "Zammad"
+    version: "2.2.0-14"
+    description: "Zammad is web based open source helpdesk/customer support system"
+    uuid: zammad-1
+    minimum_rancher_version: v1.2.0
+    questions:
+        - variable: "VIRTUAL_HOST"
+          label: "Virtual Host used in Nginx"
+          description: |
+              "This is the Domain, that is used as Virtual Host in Nginx. Just put in the Domain, you want to access zammad with."
+          default: "zammad.example.com"
+          required: true
+          type: "string"
+        - variable: "IMAGE_REPO"
+          label: "Docker Image Repository"
+          description: |
+              "This is where rancher will pull the Docker Images from."
+          default: "zammad/zammd-docker-compose"
+          required: true
+        - variable: "VERSION"
+          label: "Zammad Version. If you leave this blank, the latest images will be pulled"
+          description: ""
+          required: false
+          default: ""
+          type: "string"
+          WARN: "You have to pot a dash in front of the version-number. Example: -2.1.0.13"
+
+services:
+
+  zammad-backup:
+    scale: 1
+    start_on_create: true
+
+  zammad-elasticsearch:
+    scale: 1
+    start_on_create: true
+
+  zammad-init:
+    scale: 1
+    start_on_create: true
+
+  zammad-memcached:
+    scale: 1
+    start_on_create: true
+
+  zammad-nginx:
+    scale: 1
+    start_on_create: true
+
+  zammad-postgresql:
+    scale: 1
+    start_on_create: true
+
+  zammad-scheduler:
+    scale: 1
+    start_on_create: true
+
+  zammad-railsserver:
+    scale: 1
+    start_on_create: true
+
+  zammad-websocket:
+    scale: 1
+    start_on_create: true
