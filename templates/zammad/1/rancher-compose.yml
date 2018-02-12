@@ -19,7 +19,7 @@ catalog:
           label: "Docker Image Repository"
           description: |
               This is where rancher will pull the Docker Images from.
-          default: "zammad/zammd-docker-compose"
+          default: "zammad/zammad-docker-compose"
           type: "string"
           required: true
 
